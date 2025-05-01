@@ -1,0 +1,24 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Указываем, что рабочий процесс будет запускаться при пушах в ветку main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Указываем, что рабочий процесс будет выполняться на последней версии Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Проверяем код из репозитория
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1  # Настраиваем Docker Buildx для многоплатформенной сборки
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2  # Используем действие для сборки и отправки Docker-образа
+        with:
+          context: .  # Указываем контекст сборки (текущая директория)
+          push: true  # Указываем, что нужно отправить образ в реестр
+          tags: alanauezkhanov/my-docker-project:latest  # Замените username на своё имя пользователя на GitHub
